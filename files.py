@@ -66,8 +66,7 @@ def view_cook_book(c_b):
     for key, value in c_b.items():
         print(f'\n {key}')
         for dct in value:
-            string = dct['ingredient_name'] + ' - ' + dct['quantity'] + ' ' + dct['measure']
-            print(f'{"    "}{string}')
+            print(f"    {dct['ingredient_name'] + ' - ' + dct['quantity'] + ' ' + dct['measure']}")
 
 # view_cook_book(cook_book)
 
