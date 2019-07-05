@@ -42,28 +42,30 @@
 # Обратите внимание, что ингредиенты могут повторяться
 
 
-with open('recipes.txt') as file:
-    cook_book = {}
-    for line in file:
-        line = line.strip()
-        cook_book.update({line: []})
-        k = int(file.readline().strip())
-        for _ in range(k):
-            lst = file.readline().strip().split(' | ')
-            dict = {'ingredient_name': lst[0], 'quantity': lst[1], 'measure': lst[2]}
-            cook_book[line].append(dict)
-        file.readline()
+def open_file():
+    with open('recipes.txt') as file:
+        cook_book = {}
+        for line in file:
+            line = line.strip()
+            cook_book.update({line: []})
+            k = int(file.readline().strip())
+            for _ in range(k):
+                lst = file.readline().strip().split(' | ')
+                dict = {'ingredient_name': lst[0], 'quantity': lst[1], 'measure': lst[2]}
+                cook_book[line].append(dict)
+            file.readline()
+    return cook_book
 
-# print(cook_book)
+# print(open_file())
 
-def view_cook_book(c_b):
+def view_cook_book():
     """
     Отображение списка рецептов блюд из файла.
 
     :param c_b:
     :return:
     """
-    for key, value in c_b.items():
+    for key, value in open_file().items():
         print(f'\n {key}')
         for dct in value:
             print(f"    {dct['ingredient_name'] + ' - ' + dct['quantity'] + ' ' + dct['measure']}")
@@ -92,7 +94,8 @@ def get_shop_list_by_dishes(dishes, person_count):
     """
     shopping_list = {}
     for ingred in dishes:
-        for ingr in cook_book[ingred]:
+        for ingr in open_file()[ingred]:
+        # for ingr in cook_book[ingred]:
             name_ingr = ingr.pop('ingredient_name')
             ingr['quantity'] = int(ingr['quantity']) * int(person_count)
             if name_ingr in shopping_list:
@@ -128,7 +131,7 @@ def very_main():
         prog = str(input('\n=========================================================================================='
                          '\n\n  номер действия: '.upper()))
         if prog == '1':
-            view_cook_book(cook_book)
+            view_cook_book()
         elif prog == '2':
             input_ingredients()
         elif prog == '9':
